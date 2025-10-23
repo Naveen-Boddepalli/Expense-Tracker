@@ -44,3 +44,22 @@ def delete_expense(index):
     df = df.drop(index).reset_index(drop=True)
     df.to_csv(FILE_PATH, index=False)
     return True
+def edit_expense(index, category=None, description=None, amount=None):
+    init_file()
+    df = pd.read_csv(FILE_PATH)
+
+    if index not in df.index:
+        raise IndexError("Invalid index. Please enter a valid row number.")
+
+    if category:
+        df.at[index, "Category"] = category.capitalize()
+    if description:
+        df.at[index, "Description"] = description
+    if amount:
+        try:
+            df.at[index, "Amount"] = float(amount)
+        except ValueError:
+            raise ValueError("Amount must be a number.")
+
+    df.to_csv(FILE_PATH, index=False)
+    return True

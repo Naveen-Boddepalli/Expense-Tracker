@@ -1,5 +1,4 @@
-# main.py
-from utils.file_handler import add_expense, view_expenses, delete_expense
+from utils.file_handler import add_expense, view_expenses, delete_expense, edit_expense
 from utils.analytics import total_spent, category_breakdown
 from utils.visualizer import plot_expenses
 import pandas as pd
@@ -12,7 +11,8 @@ def menu():
         print("3. Show Summary")
         print("4. Plot Expenses (pie chart)")
         print("5. Delete an entry by index")
-        print("6. Exit")
+        print("6. Edit an entry by index")   # 👈 new option
+        print("7. Exit")
         choice = input("Enter choice: ").strip()
 
         if choice == "1":
@@ -56,11 +56,32 @@ def menu():
             except Exception as e:
                 print("Error:", e)
 
-        elif choice == "6":
+        elif choice == "6":   # 👈 new feature
+            df = view_expenses()
+            if df.empty:
+                print("No expenses to edit.")
+                continue
+            print(df.to_string(index=True))
+            try:
+                idx = int(input("Enter index to edit: ").strip())
+                print("\nLeave a field blank to keep it unchanged.")
+                new_cat = input("New category: ").strip()
+                new_desc = input("New description: ").strip()
+                new_amt = input("New amount: ").strip()
+
+                # Replace empty fields with None
+                new_cat = new_cat if new_cat else None
+                new_desc = new_desc if new_desc else None
+                new_amt = new_amt if new_amt else None
+
+                edit_expense(idx, new_cat, new_desc, new_amt)
+                print("✅ Expense updated successfully.")
+            except Exception as e:
+                print("Error:", e)
+
+        elif choice == "7":
             print("Goodbye!")
             break
+
         else:
             print("Invalid choice. Try again.")
-
-if __name__ == "__main__":
-    menu()
