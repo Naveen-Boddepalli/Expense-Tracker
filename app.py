@@ -80,13 +80,16 @@ elif choice == "Delete Expense":
 # ---------------- SUMMARY ----------------
 elif choice == "Summary":
     st.subheader("Expense Summary")
+    df = view_expenses()
+    
     total = total_spent()
     breakdown = category_breakdown()
     st.metric("Total Spent", f"{total:.2f}")
-    st.bar_chart(breakdown)
-    st.metric("Total Spent", f"{total:.2f}")
-    st.metric("Total Entries", len(df))
-    st.bar_chart(breakdown)
+    st.metric("Total Entries", len(df))  
+    if breakdown:
+        st.bar_chart(breakdown)
+    else:
+        st.info("No expenses to show in chart.")
 
 # ---------------- PLOT EXPENSES ----------------
 elif choice == "Plot Expenses":
