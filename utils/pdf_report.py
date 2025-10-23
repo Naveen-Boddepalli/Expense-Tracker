@@ -42,15 +42,35 @@ def export_monthly_report(year=None, month=None):
 
     c.setFillColor(colors.black)
     y = height - 140
-    for _, row in df.iterrows():
-        c.drawString(55, y, row["Date"])
-        c.drawString(150, y, row["Category"])
-        c.drawString(300, y, str(row["Description"]))
-        c.drawString(500, y, f"{row['Amount']:.2f}")
-        y -= 20
-        if y < 50:
-            c.showPage()
-            y = height - 50
+    for i, (_, row) in enumerate(df.iterrows()):
+        date_str = pd.to_datetime(row["Date"]).strftime("%Y-%m-%d")
+        category = str(row["Category"])
+        desc = str(row["Description"])
+        amount = f"{row['Amount']:.2f}"
+
+        # Wrap long descriptions
+        max_chars = 35
+        desc_lines = [desc[i:i+max_chars] for i in range(0, len(desc), max_chars)]
+        for line in desc_lines:
+            c.drawString(55, y, date_str)
+            c.drawString(150, y, category)
+            c.drawString(300, y, line)
+            c.drawString(500, y, amount)
+            y -= 20
+            if y < 50:
+                c.showPage()
+                # Repeat table header
+                c.setFont("Helvetica-Bold", 12)
+                c.setFillColor(colors.gray)
+                c.rect(50, 800, 500, 20, fill=True, stroke=False)
+                c.setFillColor(colors.white)
+                c.drawString(55, 805, "Date")
+                c.drawString(150, 805, "Category")
+                c.drawString(300, 805, "Description")
+                c.drawString(500, 805, "Amount")
+                c.setFillColor(colors.black)
+                c.setFont("Helvetica", 12)
+                y = 780
 
     c.save()
     print(f"✅ Monthly report saved: {filename}")
