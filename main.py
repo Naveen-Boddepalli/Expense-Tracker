@@ -1,6 +1,7 @@
 from utils.file_handler import add_expense, view_expenses, delete_expense, edit_expense
 from utils.analytics import total_spent, category_breakdown
 from utils.visualizer import plot_expenses
+from utils.pdf_report import export_monthly_report
 import pandas as pd
 
 def menu():
@@ -11,8 +12,9 @@ def menu():
         print("3. Show Summary")
         print("4. Plot Expenses (pie chart)")
         print("5. Delete an entry by index")
-        print("6. Edit an entry by index")   # 👈 new option
-        print("7. Exit")
+        print("6. Edit an entry by index")
+        print("7. Export Monthly PDF Report")
+        print("8. Exit")
         choice = input("Enter choice: ").strip()
 
         if choice == "1":
@@ -56,7 +58,7 @@ def menu():
             except Exception as e:
                 print("Error:", e)
 
-        elif choice == "6":   # 👈 new feature
+        elif choice == "6":   
             df = view_expenses()
             if df.empty:
                 print("No expenses to edit.")
@@ -78,8 +80,17 @@ def menu():
                 print("✅ Expense updated successfully.")
             except Exception as e:
                 print("Error:", e)
-
         elif choice == "7":
+            print("\nLeave blank to use current month/year.")
+            year = input("Enter year (YYYY): ").strip()
+            month = input("Enter month (1-12): ").strip()
+
+            year = int(year) if year else None
+            month = int(month) if month else None
+
+            export_monthly_report(year, month)
+
+        elif choice == "8":
             print("Goodbye!")
             break
 
