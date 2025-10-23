@@ -63,3 +63,25 @@ def edit_expense(index, category=None, description=None, amount=None):
 
     df.to_csv(FILE_PATH, index=False)
     return True
+def add_expense(category, description, amount, date=None):
+    init_file()
+    try:
+        amount = float(amount)
+    except ValueError:
+        raise ValueError("Amount must be a number.")
+    
+    if date is None:
+        date_str = datetime.now().strftime("%Y-%m-%d")
+    else:
+        date_str = pd.to_datetime(date).strftime("%Y-%m-%d")
+    
+    new_entry = pd.DataFrame([{
+        "Date": date_str,
+        "Category": category.capitalize(),
+        "Description": description,
+        "Amount": amount
+    }])
+    df = pd.read_csv(FILE_PATH)
+    df = pd.concat([df, new_entry], ignore_index=True)
+    df.to_csv(FILE_PATH, index=False)
+    return True
