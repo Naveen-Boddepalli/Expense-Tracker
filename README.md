@@ -40,3 +40,22 @@ Track, visualize, edit, and export your expenses as PDF reports.
 2. **Create a virtual environment** (recommended):
 ```bash
 python -m venv .venv
+
+3.	Activate the virtual environment:
+
+Windows:
+.venv\Scripts\activate
+
+Mac/Linux:
+source .venv/bin/activate
+
+4.	Install dependencies:
+pip install -r requirements.txt
+
+
+Run the Streamlit app:
+streamlit run app.py
+
+Stopping the App
+	•	Press CTRL + C in the terminal where Streamlit is running.
+	•	Or close the terminal window.
