@@ -6,6 +6,9 @@ A Python-based Personal Expense Tracker with a **GUI dashboard** built using **S
 Track, visualize, edit, and export your expenses as PDF reports.  
 
 ---
+##Deployed app link:
+https://expense-tracker-10032007.streamlit.app/
+
 
 ## Features
 
@@ -59,3 +62,4 @@ streamlit run app.py
 Stopping the App
 	•	Press CTRL + C in the terminal where Streamlit is running.
 	•	Or close the terminal window.
+
